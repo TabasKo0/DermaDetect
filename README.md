@@ -92,43 +92,11 @@
 
 ---
 
-## 7. Efficiency & Optimization (Post-Training)
-
-- **Goal:** Prepare model for real-world deployment.
-- **Process:**
-  - Explored post-training quantization (PyTorch), TorchScript, and ONNX conversion for faster inference and smaller size.
-  - Optionally, pruning and distillation for edge deployment.
-
----
-
-## 8. Monitoring, Evaluation & Iteration
-
-- **Goal:** Ensure clinical reliability and continuous improvement.
-- **Process:**
-  - Validated model with macro F1, class-wise recall & confusion matrix.
-  - Iteratively tuned augmentation, sampling, and loss weighting.
-  - Monitored performance on minority (melanoma) and majority classes.
-
----
-
-## Summary Table
-
-| Stage         | Model        | Class Balancing | Frontend | API Layer | Optimization |
-|---------------|-------------|-----------------|----------|-----------|--------------|
-| Baseline      | CNN         | None            | No       | No        | No           |
-| Transfer      | ResNet-18   | Basic sampling  | No       | No        | No           |
-| SOTA          | ResNet-50   | Weighted/Focal  | No       | No        | No           |
-| Advanced      | ResNet-50   | Aggressive + Cached aug | No | No       | No           |
-| Full-stack    | ResNet-50   | Advanced        | Yes      | Yes       | Yes          |
-
----
-
 ## Key Takeaways
 
 - **Start simple, iterate fast:** Baseline CNNs are for learning; advanced architectures are for performance.
 - **Class balance is crucial:** Especially in medical AI—use augmentation, weighted loss, and caching.
 - **Full-stack matters:** Real impact needs a smooth frontend and robust APIs.
-- **Efficiency is the final step:** Quantization and optimization unlock real-world use.
 
 ---
 
@@ -137,6 +105,8 @@
 - Further optimize for recall on critical classes (melanoma).
 - Deploy with model quantization or ONNX for production.
 - Expand to other skin conditions and add feedback loops.
+- Efficiency is the final step: Quantization and optimization unlock real-world use.
+
 
 
 # DermaDetect Web App Setup & Running Instructions
