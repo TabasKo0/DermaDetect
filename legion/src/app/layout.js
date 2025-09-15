@@ -1,0 +1,80 @@
+
+"use client";
+import Link from 'next/link';
+import './globals.css';
+import { useState, useEffect } from 'react';
+
+export default function RootLayout({ children }) {
+	const [isDarkMode, setIsDarkMode] = useState(false);
+
+	useEffect(() => {
+		// Load theme preference from localStorage
+		const savedTheme = localStorage.getItem('theme');
+		if (savedTheme === 'dark') {
+			setIsDarkMode(true);
+			document.documentElement.classList.add('dark-theme');
+		}
+	}, []);
+
+	const toggleTheme = () => {
+		const newDarkMode = !isDarkMode;
+		setIsDarkMode(newDarkMode);
+		
+		if (newDarkMode) {
+			document.documentElement.classList.add('dark-theme');
+			localStorage.setItem('theme', 'dark');
+		} else {
+			document.documentElement.classList.remove('dark-theme');
+			localStorage.setItem('theme', 'light');
+		}
+	};
+
+	return (
+		<html lang="en">
+			<body className={isDarkMode ? 'dark-theme' : ''}>
+				<header className="header">
+					<Link href="/" className="logo-link">
+						<img src="/file.svg" alt="Logo" style={{ height: '40px', marginRight: '0.5rem' }} />
+					</Link>
+					<nav className="nav">
+						<ul className="nav-list">
+							<li><Link href="/" className="nav-link">Home</Link></li>
+							<li><Link href="/process" className="nav-link">Process</Link></li>
+							<li><Link href="/about" className="nav-link">About</Link></li>
+							<li><Link href="/documentation" className="nav-link">Documentation</Link></li>
+						</ul>
+						<button onClick={toggleTheme} className="theme-toggle">
+							<svg xmlns="http://www.w3.org/2000/svg"
+								 viewBox="0 0 64 64"
+								 width="20" height="20"
+								 role="img" 
+								 aria-label="Theme toggle"
+								 fill="white" 
+								 stroke="white"
+								 className="theme-icon">
+								{/* core circle */}
+								<circle cx="32" cy="32" r="10" />
+								
+								{/* 8 rays */}
+								<line x1="32" y1="4"  x2="32" y2="14" strokeWidth="4" strokeLinecap="round"/>
+								<line x1="32" y1="50" x2="32" y2="60" strokeWidth="4" strokeLinecap="round"/>
+								
+								<line x1="4"  y1="32" x2="14" y2="32" strokeWidth="4" strokeLinecap="round"/>
+								<line x1="50" y1="32" x2="60" y2="32" strokeWidth="4" strokeLinecap="round"/>
+								
+								<line x1="12" y1="12" x2="19" y2="19" strokeWidth="4" strokeLinecap="round"/>
+								<line x1="45" y1="45" x2="52" y2="52" strokeWidth="4" strokeLinecap="round"/>
+								
+								<line x1="12" y1="52" x2="19" y2="45" strokeWidth="4" strokeLinecap="round"/>
+								<line x1="45" y1="19" x2="52" y2="12" strokeWidth="4" strokeLinecap="round"/>
+							</svg>
+						</button>
+					</nav>
+				</header>
+				<main className="main">
+					{children}
+				</main>
+			</body>
+		</html>
+	);
+}
