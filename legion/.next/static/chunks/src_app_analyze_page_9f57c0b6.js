@@ -8,10 +8,17 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$chartjs$2d$2$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-chartjs-2/dist/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$chart$2e$js$2f$dist$2f$chart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/chart.js/dist/chart.js [app-client] (ecmascript) <locals>");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
 ;
+;
+;
+;
+__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$chart$2e$js$2f$dist$2f$chart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["Chart"].register(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$chart$2e$js$2f$dist$2f$chart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["ArcElement"], __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$chart$2e$js$2f$dist$2f$chart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["Tooltip"], __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$chart$2e$js$2f$dist$2f$chart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["Legend"]);
 function DetectPage() {
     _s();
     const [image, setImage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -82,6 +89,61 @@ function DetectPage() {
             setError(null);
         }
     };
+    const createChartData = (classProbabilities)=>{
+        if (!classProbabilities) return null;
+        const labels = Object.keys(classProbabilities).map((cls)=>{
+            return classInfo[cls] ? classInfo[cls].fullName : cls;
+        });
+        const data = Object.values(classProbabilities).map((prob)=>{
+            if (typeof prob === 'string' || typeof prob === 'number') {
+                return parseFloat(prob) * 100;
+            }
+            return 0;
+        });
+        const colors = [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#4BC0C0',
+            '#9966FF',
+            '#FF9F40',
+            '#FF6384'
+        ];
+        return {
+            labels,
+            datasets: [
+                {
+                    data,
+                    backgroundColor: colors.slice(0, labels.length),
+                    borderColor: colors.slice(0, labels.length).map((color)=>color.replace('0.6', '1')),
+                    borderWidth: 2
+                }
+            ]
+        };
+    };
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    color: 'var(--foreground)',
+                    font: {
+                        size: 12
+                    },
+                    padding: 15
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.label + ': ' + context.parsed.toFixed(2) + '%';
+                    }
+                }
+            }
+        }
+    };
     const handleSubmit = async (e)=>{
         e.preventDefault();
         if (!image) return;
@@ -123,7 +185,7 @@ function DetectPage() {
                 children: "Image Detection"
             }, void 0, false, {
                 fileName: "[project]/src/app/analyze/page.js",
-                lineNumber: 104,
+                lineNumber: 173,
                 columnNumber: 4
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -157,9 +219,11 @@ function DetectPage() {
                                     },
                                     onClick: ()=>inputRef.current && inputRef.current.click(),
                                     children: [
-                                        imagePreview ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                        imagePreview ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                             src: imagePreview,
                                             alt: "Selected",
+                                            width: 400,
+                                            height: 300,
                                             style: {
                                                 maxWidth: "100%",
                                                 maxHeight: "300px",
@@ -168,7 +232,7 @@ function DetectPage() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/analyze/page.js",
-                                            lineNumber: 132,
+                                            lineNumber: 201,
                                             columnNumber: 9
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             style: {
@@ -178,7 +242,7 @@ function DetectPage() {
                                             children: "Drag & drop an image here, or click to select"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/analyze/page.js",
-                                            lineNumber: 143,
+                                            lineNumber: 214,
                                             columnNumber: 9
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -191,13 +255,13 @@ function DetectPage() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/analyze/page.js",
-                                            lineNumber: 147,
+                                            lineNumber: 218,
                                             columnNumber: 8
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/analyze/page.js",
-                                    lineNumber: 110,
+                                    lineNumber: 179,
                                     columnNumber: 7
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -216,18 +280,18 @@ function DetectPage() {
                                     children: loading ? "Analyzing..." : "Analyze"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/analyze/page.js",
-                                    lineNumber: 155,
+                                    lineNumber: 226,
                                     columnNumber: 7
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/analyze/page.js",
-                            lineNumber: 109,
+                            lineNumber: 178,
                             columnNumber: 6
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/analyze/page.js",
-                        lineNumber: 108,
+                        lineNumber: 177,
                         columnNumber: 5
                     }, this),
                     error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -240,7 +304,7 @@ function DetectPage() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/analyze/page.js",
-                        lineNumber: 173,
+                        lineNumber: 244,
                         columnNumber: 15
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -250,7 +314,7 @@ function DetectPage() {
                                 children: "Result"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/analyze/page.js",
-                                lineNumber: 175,
+                                lineNumber: 246,
                                 columnNumber: 6
                             }, this),
                             result ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -261,7 +325,7 @@ function DetectPage() {
                                                 children: "Prediction:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/analyze/page.js",
-                                                lineNumber: 178,
+                                                lineNumber: 249,
                                                 columnNumber: 13
                                             }, this),
                                             " ",
@@ -269,7 +333,7 @@ function DetectPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/analyze/page.js",
-                                        lineNumber: 178,
+                                        lineNumber: 249,
                                         columnNumber: 8
                                     }, this),
                                     classInfo[result.prediction] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -281,7 +345,7 @@ function DetectPage() {
                                                         children: "Full Name:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/analyze/page.js",
-                                                        lineNumber: 181,
+                                                        lineNumber: 252,
                                                         columnNumber: 15
                                                     }, this),
                                                     " ",
@@ -289,7 +353,7 @@ function DetectPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/analyze/page.js",
-                                                lineNumber: 181,
+                                                lineNumber: 252,
                                                 columnNumber: 10
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -301,7 +365,7 @@ function DetectPage() {
                                                         children: "Description:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/analyze/page.js",
-                                                        lineNumber: 182,
+                                                        lineNumber: 253,
                                                         columnNumber: 47
                                                     }, this),
                                                     " ",
@@ -309,13 +373,13 @@ function DetectPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/analyze/page.js",
-                                                lineNumber: 182,
+                                                lineNumber: 253,
                                                 columnNumber: 10
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/analyze/page.js",
-                                        lineNumber: 180,
+                                        lineNumber: 251,
                                         columnNumber: 9
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -324,7 +388,7 @@ function DetectPage() {
                                                 children: "Class Index:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/analyze/page.js",
-                                                lineNumber: 185,
+                                                lineNumber: 256,
                                                 columnNumber: 13
                                             }, this),
                                             " ",
@@ -332,7 +396,7 @@ function DetectPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/analyze/page.js",
-                                        lineNumber: 185,
+                                        lineNumber: 256,
                                         columnNumber: 8
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -341,7 +405,7 @@ function DetectPage() {
                                                 children: "Confidence:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/analyze/page.js",
-                                                lineNumber: 186,
+                                                lineNumber: 257,
                                                 columnNumber: 13
                                             }, this),
                                             " ",
@@ -349,51 +413,44 @@ function DetectPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/analyze/page.js",
-                                        lineNumber: 186,
+                                        lineNumber: 257,
                                         columnNumber: 8
                                     }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    result.class_probabilities && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         style: {
-                                            marginTop: "1rem"
+                                            marginTop: "1.5rem"
                                         },
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
                                                 children: "Class Probabilities:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/analyze/page.js",
-                                                lineNumber: 188,
-                                                columnNumber: 9
+                                                lineNumber: 260,
+                                                columnNumber: 10
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                children: result.class_probabilities && Object.entries(result.class_probabilities).map((param)=>{
-                                                    let [cls, prob] = param;
-                                                    let percent = 0;
-                                                    if (typeof prob === 'string' || typeof prob === 'number') {
-                                                        percent = parseFloat(prob) * 100;
-                                                    }
-                                                    const display = "".concat(percent.toFixed(2), "%");
-                                                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                        children: [
-                                                            cls,
-                                                            ": ",
-                                                            display
-                                                        ]
-                                                    }, cls, true, {
-                                                        fileName: "[project]/src/app/analyze/page.js",
-                                                        lineNumber: 196,
-                                                        columnNumber: 18
-                                                    }, this);
-                                                })
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                style: {
+                                                    height: "300px",
+                                                    marginTop: "1rem"
+                                                },
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$chartjs$2d$2$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Pie"], {
+                                                    data: createChartData(result.class_probabilities),
+                                                    options: chartOptions
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/analyze/page.js",
+                                                    lineNumber: 262,
+                                                    columnNumber: 11
+                                                }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/analyze/page.js",
-                                                lineNumber: 189,
-                                                columnNumber: 9
+                                                lineNumber: 261,
+                                                columnNumber: 10
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/analyze/page.js",
-                                        lineNumber: 187,
-                                        columnNumber: 8
+                                        lineNumber: 259,
+                                        columnNumber: 9
                                     }, this)
                                 ]
                             }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -404,25 +461,25 @@ function DetectPage() {
                                 children: 'Upload an image and click "Analyze" to see results here.'
                             }, void 0, false, {
                                 fileName: "[project]/src/app/analyze/page.js",
-                                lineNumber: 202,
+                                lineNumber: 271,
                                 columnNumber: 7
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/analyze/page.js",
-                        lineNumber: 174,
+                        lineNumber: 245,
                         columnNumber: 5
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/analyze/page.js",
-                lineNumber: 107,
+                lineNumber: 176,
                 columnNumber: 4
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/analyze/page.js",
-        lineNumber: 103,
+        lineNumber: 172,
         columnNumber: 3
     }, this);
 }

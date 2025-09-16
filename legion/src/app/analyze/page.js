@@ -1,5 +1,15 @@
 "use client";
 import { useState, useRef } from "react";
+import Image from 'next/image';
+import { Pie } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend
+} from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function DetectPage() {
 	const [image, setImage] = useState(null);
@@ -76,6 +86,65 @@ export default function DetectPage() {
 		}
 	};
 
+	const createChartData = (classProbabilities) => {
+		if (!classProbabilities) return null;
+		
+		const labels = Object.keys(classProbabilities).map(cls => {
+			return classInfo[cls] ? classInfo[cls].fullName : cls;
+		});
+		
+		const data = Object.values(classProbabilities).map(prob => {
+			if (typeof prob === 'string' || typeof prob === 'number') {
+				return parseFloat(prob) * 100;
+			}
+			return 0;
+		});
+
+		const colors = [
+			'#FF6384',
+			'#36A2EB', 
+			'#FFCE56',
+			'#4BC0C0',
+			'#9966FF',
+			'#FF9F40',
+			'#FF6384'
+		];
+
+		return {
+			labels,
+			datasets: [{
+				data,
+				backgroundColor: colors.slice(0, labels.length),
+				borderColor: colors.slice(0, labels.length).map(color => color.replace('0.6', '1')),
+				borderWidth: 2
+			}]
+		};
+	};
+
+	const chartOptions = {
+		responsive: true,
+		maintainAspectRatio: false,
+		plugins: {
+			legend: {
+				position: 'bottom',
+				labels: {
+					color: 'var(--foreground)',
+					font: {
+						size: 12
+					},
+					padding: 15
+				}
+			},
+			tooltip: {
+				callbacks: {
+					label: function(context) {
+						return context.label + ': ' + context.parsed.toFixed(2) + '%';
+					}
+				}
+			}
+		}
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!image) return;
@@ -129,9 +198,11 @@ export default function DetectPage() {
 							onClick={() => inputRef.current && inputRef.current.click()}
 						>
 							{imagePreview ? (
-								<img 
+								<Image 
 									src={imagePreview} 
 									alt="Selected" 
+									width={400}
+									height={300}
 									style={{ 
 										maxWidth: "100%", 
 										maxHeight: "300px", 
@@ -184,23 +255,21 @@ export default function DetectPage() {
 							)}
 							<div><strong>Class Index:</strong> {result.class_idx}</div>
 							<div><strong>Confidence:</strong> {result.confidence !== undefined ? `${(parseFloat(result.confidence) * 100).toFixed(2)}%` : ''}</div>
-							<div style={{ marginTop: "1rem" }}>
-								<strong>Class Probabilities:</strong>
-								<ul>
-									{result.class_probabilities && Object.entries(result.class_probabilities).map(([cls, prob]) => {
-										let percent = 0;
-										if (typeof prob === 'string' || typeof prob === 'number') {
-											percent = (parseFloat(prob) * 100);
-										}
-										const display = `${percent.toFixed(2)}%`;
-										return <li key={cls}>{cls}: {display}</li>;
-									})}
-								</ul>
-							</div>
+							{result.class_probabilities && (
+								<div style={{ marginTop: "1.5rem" }}>
+									<strong>Class Probabilities:</strong>
+									<div style={{ height: "300px", marginTop: "1rem" }}>
+										<Pie 
+											data={createChartData(result.class_probabilities)} 
+											options={chartOptions}
+										/>
+									</div>
+								</div>
+							)}
 						</>
 					) : (
 						<div style={{ color: "var(--text-muted)", fontStyle: "italic" }}>
-							Upload an image and click "Analyze" to see results here.
+							Upload an image and click &quot;Analyze&quot; to see results here.
 						</div>
 					)}
 				</div>

@@ -1,6 +1,7 @@
 
 "use client";
 import Link from 'next/link';
+import Image from 'next/image';
 import './globals.css';
 import { useState, useEffect } from 'react';
 
@@ -34,13 +35,13 @@ export default function RootLayout({ children }) {
 			<body className={isDarkMode ? 'dark-theme' : ''}>
 				<header className="header">
 					<Link href="/" className="logo-link">
-						<img src="/file.svg" alt="Logo" style={{ height: '40px', marginRight: '0.5rem' }} />
+						<Image src="/file.svg" alt="Logo" width={40} height={40} style={{ marginRight: '0.5rem' }} />
 					</Link>
 					<nav className="nav">
 						<ul className="nav-list">
 							<li><Link href="/" className="nav-link">Home</Link></li>
+							<li><Link href="/analyze" className="nav-link">Analyze</Link></li>
 							<li><Link href="/process" className="nav-link">Process</Link></li>
-							<li><Link href="/about" className="nav-link">About</Link></li>
 							<li><Link href="/documentation" className="nav-link">Documentation</Link></li>
 						</ul>
 						<button onClick={toggleTheme} className="theme-toggle">
