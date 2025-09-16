@@ -1,5 +1,12 @@
 {
   "/analyze/page": "app/analyze/page.js",
   "/api/analyze/route": "app/api/analyze/route.js",
+<<<<<<< HEAD
   "/page": "app/page.js"
+=======
+  "/documentation/page": "app/documentation/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/process/page": "app/process/page.js"
+>>>>>>> 2fec113f150a8f95831a02b9210f7c19f53604e6
 }
