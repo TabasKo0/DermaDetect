@@ -5,7 +5,7 @@ import torch
 from torchvision import transforms, models
 
 # ---- CONFIG ----
-MODEL_PATH = 'resnet50/best_skin_cancer_resnet50.pt'
+MODEL_PATH = 'resnet50-balaned/best_skin_cancer_resnet50.pt'
 CLASS_NAMES = ['akiec', 'bcc', 'bkl', 'df', 'mel', 'nv', 'vasc']
 IMG_SIZE = 224
 
@@ -19,7 +19,8 @@ def load_model(model_path, num_classes, device):
         nn.Dropout(0.5),
         nn.Linear(num_features, num_classes)
     )
-    model.load_state_dict(torch.load(model_path, map_location=device))
+    state_dict = torch.load(model_path, map_location=device)
+    model.load_state_dict(state_dict)
     model.eval()
     model.to(device)
     return model
@@ -52,21 +53,22 @@ def predict():
     image_tensor = preprocess_image(img).to(device)
     with torch.no_grad():
         outputs = model(image_tensor)
-        _, predicted = torch.max(outputs, 1)
-        class_idx = predicted.item()
-        class_name = CLASS_NAMES[class_idx]
         confidences = torch.nn.functional.softmax(outputs, dim=1)[0]
+        class_idx = int(torch.argmax(confidences).item())
+        class_name = CLASS_NAMES[class_idx]
         all_probs = {name: float(prob) for name, prob in zip(CLASS_NAMES, confidences.cpu().numpy())}
         confidence = float(confidences[class_idx].item())
-        #all_probs = {name: f"{float(prob):.4f}" for name, prob in zip(CLASS_NAMES, confidences.cpu().numpy())}
-        #confidence = f"{float(confidences[class_idx].item()):.4f}"
-    
+
     return jsonify({
         'prediction': class_name,
         'class_idx': class_idx,
         'confidence': confidence,
         'class_probabilities': all_probs
     })
+
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({'status': 'Skin cancer prediction API is running.'})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
