@@ -1,9 +1,0 @@
-{
-  "/_not-found/page": "/_not-found",
-  "/analyze/page": "/analyze",
-  "/api/analyze/route": "/api/analyze",
-  "/documentation/page": "/documentation",
-  "/favicon.ico/route": "/favicon.ico",
-  "/page": "/",
-  "/process/page": "/process"
-}
