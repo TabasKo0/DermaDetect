@@ -122,6 +122,22 @@ body {
   line-height: 1.6;
 }
 
+/* phone styles */
+.phone-nav{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin:1rem;
+}
+
+.phone-toggle{
+  display:none;
+}
+.nav-close{
+  display:none;
+}
+
 /* Documentation and Process page styles */
 .documentation-container,
 .process-container {
@@ -195,6 +211,13 @@ body {
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 2px 8px var(--card-shadow);
+}
+
+.analyze-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px var(--card-shadow);
+  margin: 2rem auto;
   min-width: 400px;
 }
 
@@ -312,11 +335,18 @@ body {
   
   .nav {
     gap: 1rem;
+    display:none;
   }
   
   .nav-list {
     gap: 1rem;
+    flex-direction: column;
+    margin:1rem
   }
+  .phone-toggle{
+    display:block;
+  }
+
 }
 
 @theme inline {

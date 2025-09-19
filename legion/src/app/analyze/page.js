@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from 'next/image';
 import { Pie } from 'react-chartjs-2';
 import {
@@ -18,39 +18,61 @@ export default function DetectPage() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [dragActive, setDragActive] = useState(false);
+	const [chartKey, setChartKey] = useState(0); // Force chart re-render on theme change
 	const inputRef = useRef(null);
+
+	// Listen for theme changes
+	useEffect(() => {
+		const observer = new MutationObserver(() => {
+			setChartKey(prev => prev + 1); // Force chart re-render
+		});
+		
+		observer.observe(document.body, {
+			attributes: true,
+			attributeFilter: ['class']
+		});
+		
+		return () => observer.disconnect();
+	}, []);
 
 	// Class information mapping
 	const classInfo = {
-		akiec: {
-			fullName: "Actinic Keratoses and Intraepithelial Carcinoma (Bowen's disease)",
-			description: "Precancerous or cancerous lesions, often scaly or rough."
-		},
-		bcc: {
-			fullName: "Basal Cell Carcinoma",
-			description: "Most common type of skin cancer, usually slow-growing."
-		},
-		bkl: {
-			fullName: "Benign Keratosis-like Lesions",
-			description: "Includes seborrheic keratoses, lichenoid keratoses, and solar lentigines (benign, non-cancerous)."
-		},
-		df: {
-			fullName: "Dermatofibroma",
-			description: "Benign fibrous skin nodule."
-		},
-		mel: {
-			fullName: "Melanoma",
-			description: "Dangerous skin cancer that can spread rapidly."
-		},
-		nv: {
-			fullName: "Melanocytic Nevus",
-			description: "Mole (benign proliferation of melanocytes)."
-		},
-		vasc: {
-			fullName: "Vascular Lesion",
-			description: "Includes angiomas, hemangiomas, and pyogenic granulomas (benign blood vessel growths)."
-		}
-	};
+	akiec: {
+		fullName: "Actinic Keratoses and Intraepithelial Carcinoma (Bowen's disease)",
+		description: "Precancerous or cancerous lesions, often scaly or rough.",
+		dangerLevel: "malignant"
+	},
+	bcc: {
+		fullName: "Basal Cell Carcinoma",
+		description: "Most common type of skin cancer, usually slow-growing.",
+		dangerLevel: "malignant"
+	},
+	bkl: {
+		fullName: "Benign Keratosis-like Lesions",
+		description: "Includes seborrheic keratoses, lichenoid keratoses, and solar lentigines (benign, non-cancerous).",
+		dangerLevel: "benign"
+	},
+	df: {
+		fullName: "Dermatofibroma",
+		description: "Benign fibrous skin nodule.",
+		dangerLevel: "benign"
+	},
+	mel: {
+		fullName: "Melanoma",
+		description: "Dangerous skin cancer that can spread rapidly.",
+		dangerLevel: "malignant"
+	},
+	nv: {
+		fullName: "Melanocytic Nevus",
+		description: "Mole (benign proliferation of melanocytes).",
+		dangerLevel: "benign"
+	},
+	vasc: {
+		fullName: "Vascular Lesion",
+		description: "Includes angiomas, hemangiomas, and pyogenic granulomas (benign blood vessel growths).",
+		dangerLevel: "benign"
+	}
+};
 
 	const handleImageChange = (e) => {
 		const file = e.target.files[0];
@@ -121,28 +143,34 @@ export default function DetectPage() {
 		};
 	};
 
-	const chartOptions = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			legend: {
-				position: 'bottom',
-				labels: {
-					color: 'var(--foreground)',
-					font: {
-						size: 12
-					},
-					padding: 15
-				}
-			},
-			tooltip: {
-				callbacks: {
-					label: function(context) {
-						return context.label + ': ' + context.parsed.toFixed(2) + '%';
+	const getChartOptions = () => {
+		// Get the computed CSS variable value
+		const foregroundColor = getComputedStyle(document.documentElement)
+			.getPropertyValue('--foreground').trim() || '#171717';
+		
+		return {
+			responsive: true,
+			maintainAspectRatio: false,
+			plugins: {
+				legend: {
+					position: 'bottom',
+					labels: {
+						color: foregroundColor,
+						font: {
+							size: 12
+						},
+						padding: 15
+					}
+				},
+				tooltip: {
+					callbacks: {
+						label: function(context) {
+							return context.label + ': ' + context.parsed.toFixed(2) + '%';
+						}
 					}
 				}
 			}
-		}
+		};
 	};
 
 	const handleSubmit = async (e) => {
@@ -242,7 +270,17 @@ export default function DetectPage() {
 					</form>
 				</div>
 				{error && <div style={{ color: "#d32f2f" }}>Error: {error}</div>}
-				<div className="result-card">
+				<div
+					className="result-card"
+					style={{
+						border: result && classInfo[result.prediction]
+							? `2px solid ${classInfo[result.prediction].dangerLevel === "malignant" ? "#d32f2f" : "#388e3c"}`
+							: "2px solid var(--border-color)",
+						borderRadius: "8px",
+						padding: "1.5rem",
+						marginTop: "2rem"
+					}}
+				>
 					<h3>Result</h3>
 					{result ? (
 						<>
@@ -250,6 +288,7 @@ export default function DetectPage() {
 							{classInfo[result.prediction] && (
 								<div className="class-info-card">
 									<div><strong>Full Name:</strong> {classInfo[result.prediction].fullName}</div>
+									<div style={{ marginTop: "0.5rem" }}><strong>Danger Level:</strong> {classInfo[result.prediction].dangerLevel}</div>
 									<div style={{ marginTop: "0.5rem" }}><strong>Description:</strong> {classInfo[result.prediction].description}</div>
 								</div>
 							)}
@@ -260,8 +299,9 @@ export default function DetectPage() {
 									<strong>Class Probabilities:</strong>
 									<div style={{ height: "300px", marginTop: "1rem" }}>
 										<Pie 
+											key={chartKey}
 											data={createChartData(result.class_probabilities)} 
-											options={chartOptions}
+											options={getChartOptions()}
 										/>
 									</div>
 								</div>

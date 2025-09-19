@@ -5,7 +5,7 @@ import torch
 from torchvision import transforms, models
 
 # ---- CONFIG ----
-MODEL_PATH = 'resnet50-balaned/best_skin_cancer_resnet50.pt'
+MODEL_PATH = 'resnet50-balanced/best_skin_cancer_resnet50.pt'
 CLASS_NAMES = ['akiec', 'bcc', 'bkl', 'df', 'mel', 'nv', 'vasc']
 IMG_SIZE = 224
 
