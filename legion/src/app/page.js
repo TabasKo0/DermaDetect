@@ -1,36 +1,67 @@
-
+/* eslint-disable react/no-unescaped-entities */
+import React from 'react';
 import Link from 'next/link';
 
-export default function Home() {
-  return (
-    <div className="home-container">
-      <div className="welcome-section">
-        <h1 className="welcome-title">Welcome to DermaDetect</h1>
-        <p className="welcome-description">
-          AI-powered skin lesion analysis to help detect and classify skin conditions. 
-          Upload an image of a skin lesion and get instant analysis with confidence scores.
-        </p>
-        <Link href="/analyze" className="analyze-button">
-          Start Analysis
-        </Link>
-      </div>
-      <div className="features-section">
-        <h2 className="features-title">Key Features</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <h3>AI-Powered Detection</h3>
-            <p>Advanced machine learning models trained on medical datasets</p>
-          </div>
-          <div className="feature-card">
-            <h3>Multiple Classifications</h3>
-            <p>Detects various skin conditions including melanoma, carcinoma, and benign lesions</p>
-          </div>
-          <div className="feature-card">
-            <h3>Confidence Scoring</h3>
-            <p>Get detailed confidence scores and probability distributions</p>
-          </div>
-        </div>
-      </div>
-    </div>
+export default function DocumentationPage() {
+  return React.createElement(
+    'main',
+    { className: 'documentation-page' },
+    React.createElement(
+      'header',
+      null,
+      React.createElement('h1', null, 'Documentation'),
+      React.createElement(
+        'p',
+        { className: 'lead' },
+        'A short guide to using DermaDetect and the available endpoints.'
+      )
+    ),
+
+    React.createElement(
+      'section',
+      { 'aria-labelledby': 'usage-title' },
+      React.createElement('h2', { id: 'usage-title' }, 'Quick usage'),
+      React.createElement(
+        'p',
+        null,
+        'To analyze a lesion, go to the "Analyze" page, upload an image, and click the "Start Analysis" button. The system will return a classification and confidence scores.'
+      ),
+      React.createElement(
+        'p',
+        null,
+        "You can also pass metadata (age, location, history) alongside the image to improve the model's contextual interpretation."
+      ),
+      React.createElement(
+        Link,
+        { href: '/analyze', className: 'btn-primary', 'aria-label': 'Go to analyze page' },
+        'Go to Analyze'
+      )
+    ),
+
+    React.createElement(
+      'section',
+      { 'aria-labelledby': 'api-title', className: 'api-section' },
+      React.createElement('h2', { id: 'api-title' }, 'API & Integration'),
+      React.createElement(
+        'p',
+        null,
+        'Use the REST endpoint to submit images programmatically. When sending test payloads in documentation or examples, wrap string literals in "quotes" to make the examples clear.'
+      ),
+      React.createElement(
+        'pre',
+        { className: 'example' },
+        'POST /api/analyze\nContent-Type: multipart/form-data\n\nfile: <image>\nage: 45\nlocation: "left arm"\n'
+      )
+    ),
+
+    React.createElement(
+      'footer',
+      { className: 'docs-footer' },
+      React.createElement(
+        'small',
+        null,
+        '© ' + new Date().getFullYear() + ' DermaDetect — Documentation'
+      )
+    )
   );
 }

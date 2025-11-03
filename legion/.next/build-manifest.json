@@ -1,53 +1,31 @@
 {
   "pages": {
     "/_app": [
-      "static/chunks/4f655_next_dist_compiled_next-devtools_index_04998087.js",
-      "static/chunks/4f655_next_dist_compiled_25cefb8d._.js",
-      "static/chunks/4f655_next_dist_shared_lib_70ea5917._.js",
-      "static/chunks/4f655_next_dist_client_03550bb3._.js",
-      "static/chunks/4f655_next_dist_f3469310._.js",
-      "static/chunks/4f655_next_app_bfe20cde.js",
-      "static/chunks/[next]_entry_page-loader_ts_12bbd5c4._.js",
-      "static/chunks/4f655_react-dom_2b8254bb._.js",
-      "static/chunks/4f655_afc5e41a._.js",
-      "static/chunks/[root-of-the-server]__da35b071._.js",
-      "static/chunks/acm_legion_pages__app_2da965e7._.js",
-      "static/chunks/turbopack-acm_legion_pages__app_59e9fe01._.js"
+      "static/chunks/cd5f9c0ad5643cdb.js",
+      "static/chunks/0198277e3f491a31.js",
+      "static/chunks/turbopack-77aa75decc7eabff.js"
     ],
     "/_error": [
-      "static/chunks/4f655_next_dist_compiled_next-devtools_index_04998087.js",
-      "static/chunks/4f655_next_dist_compiled_25cefb8d._.js",
-      "static/chunks/4f655_next_dist_shared_lib_e85b5eaf._.js",
-      "static/chunks/4f655_next_dist_client_03550bb3._.js",
-      "static/chunks/4f655_next_dist_1eae784b._.js",
-      "static/chunks/4f655_next_error_95ba7e34.js",
-      "static/chunks/[next]_entry_page-loader_ts_fac2168d._.js",
-      "static/chunks/4f655_react-dom_2b8254bb._.js",
-      "static/chunks/4f655_afc5e41a._.js",
-      "static/chunks/[root-of-the-server]__8a5c73dd._.js",
-      "static/chunks/acm_legion_pages__error_2da965e7._.js",
-      "static/chunks/turbopack-acm_legion_pages__error_96e2b921._.js"
+      "static/chunks/2218f5c15c3dba63.js",
+      "static/chunks/0198277e3f491a31.js",
+      "static/chunks/turbopack-99ff31528f440a19.js"
     ]
   },
   "devFiles": [],
   "ampDevFiles": [],
   "polyfillFiles": [
-    "static/chunks/4f655_next_dist_build_polyfills_polyfill-nomodule.js"
+    "static/chunks/a6dad97d9634a72d.js"
   ],
   "lowPriorityFiles": [
-    "static/development/_ssgManifest.js",
-    "static/development/_buildManifest.js"
+    "static/4PkmJ8mgnl3wwxp5odQl-/_ssgManifest.js",
+    "static/4PkmJ8mgnl3wwxp5odQl-/_buildManifest.js"
   ],
   "rootMainFiles": [
-    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_d338b9e4._.js",
-    "static/chunks/4f655_next_dist_compiled_react-dom_792b20e2._.js",
-    "static/chunks/4f655_next_dist_compiled_next-devtools_index_4b542fdc.js",
-    "static/chunks/4f655_next_dist_compiled_c600637d._.js",
-    "static/chunks/4f655_next_dist_client_17303b0c._.js",
-    "static/chunks/4f655_next_dist_1a71c8c4._.js",
-    "static/chunks/4f655_@swc_helpers_cjs_aaa6c1c4._.js",
-    "static/chunks/acm_legion_a0ff3932._.js",
-    "static/chunks/turbopack-acm_legion_a3b9b5de._.js"
+    "static/chunks/6324e812d95ac2aa.js",
+    "static/chunks/96f8409479c25889.js",
+    "static/chunks/3d79cc5cc4419f8d.js",
+    "static/chunks/4ef16d4baf005fdf.js",
+    "static/chunks/turbopack-dc44971817235b86.js"
   ],
   "ampFirstPages": []
 }

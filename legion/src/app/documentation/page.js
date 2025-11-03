@@ -49,7 +49,7 @@ export default function DermaDetectProgress() {
             <li>Slight improvement in minority class recall</li>
           </ul>
           <p>
-            <em>Issue persisted: Melanoma and other rare classes still often misclassified as "nevus".</em>
+            <em>Issue persisted: Melanoma and other rare classes still often misclassified as &quot;nevus&quot;.</em>
           </p>
         </section>
 
@@ -71,7 +71,7 @@ export default function DermaDetectProgress() {
             <li>Minority class detection improved, but still below clinical requirements</li>
           </ul>
           <p>
-            <em>Problem: Model still biased toward "nevus" and benign classes, especially when data imbalance was present.</em>
+            <em>Problem: Model still biased toward &quot;nevus&quot; and benign classes, especially when data imbalance was present.</em>
           </p>
         </section>
 
